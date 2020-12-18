@@ -6,6 +6,7 @@
 
 #include <IRremote.h>
 /**************************************************/
+// connect LEDs to control on pins 2 - 7.
 int LED1 = 2;
 int LED2 = 3;
 int LED3 = 4;
@@ -13,6 +14,7 @@ int LED4 = 5;
 int LED5 = 6;
 int LED6 = 7;
 
+// HEX values correspond to keys on the remote.
 long on1  = 0x00FF6897;
 long off1 = 0x00FF9867;
 long on2 =  0x00FFB04F;
@@ -44,7 +46,7 @@ void setup() {
   pinMode(LED5, OUTPUT);
   pinMode(LED6, OUTPUT);
 
-  Serial.begin(115200);
+  Serial.begin(115200);  // for debug - set Serial Monitor to 115200
 
   Serial.println("Enabling IRin");
   IrReceiver.enableIRIn();  // Start the receiver
@@ -61,7 +63,7 @@ void loop()
     // IR received, toggle the relay
     if (millis() - last > 250)
     {
-      dump(&results);
+      dump(&results);  // prints out the received data
     }
     if (results.value == on1 )
       digitalWrite(LED1, HIGH);
@@ -87,6 +89,7 @@ void loop()
       digitalWrite(LED6, HIGH);
     if (results.value == off6 )
       digitalWrite(LED6, LOW);
+     
     last = millis();
     IrReceiver.resume(); // Receive the next value
   }
